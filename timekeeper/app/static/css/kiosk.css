@@ -1,0 +1,116 @@
+/* Kiosk styling.
+   NFR-U-03: touch targets ≥ 48×48 px, legible from one metre, usable with
+   gloves and in high ambient light — hence the large type, the high-contrast
+   palette and the generous hit areas. No navigation chrome: there is no way
+   from here to any other part of the system. */
+
+:root {
+  --k-bg: #0d1b2a;
+  --k-surface: #16293d;
+  --k-line: #2b4260;
+  --k-text: #f2f6fb;
+  --k-muted: #a9bdd6;
+  --k-in: #17a67e;
+  --k-out: #d9822b;
+  --k-err: #e04b5c;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: var(--k-bg); color: var(--k-text);
+  font: 18px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%; overscroll-behavior: none;
+  user-select: none; -webkit-user-select: none;
+}
+
+.kiosk { min-height: 100%; display: flex; flex-direction: column; }
+.kiosk-loading { margin: auto; font-size: 1.5rem; color: var(--k-muted); }
+
+.k-head {
+  display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem;
+  border-bottom: 2px solid var(--k-line); flex-wrap: wrap;
+}
+.k-head h1 { font-size: 1.4rem; margin: 0; }
+.k-head .spacer { flex: 1; }
+.k-clock { font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.k-status { font-size: .95rem; color: var(--k-muted); }
+.k-status.offline { color: var(--k-out); font-weight: 700; }
+
+.k-body { flex: 1; padding: 1.25rem; }
+
+.roster {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.tile {
+  min-height: 118px; border-radius: 16px; border: 3px solid var(--k-line);
+  background: var(--k-surface); color: var(--k-text);
+  display: flex; flex-direction: column; justify-content: center; gap: .35rem;
+  padding: 1rem 1.15rem; text-align: left; cursor: pointer; font: inherit;
+}
+.tile:hover, .tile:focus-visible { border-color: #7fa8dc; outline: none; }
+.tile .tname { font-size: 1.45rem; font-weight: 700; }
+.tile .tstate { font-size: 1rem; color: var(--k-muted); }
+.tile.in { border-color: var(--k-in); }
+.tile.in .tstate { color: #7fe3c6; }
+.tile.on_break { border-color: var(--k-out); }
+.tile.on_break .tstate { color: #f5c187; }
+
+.pad { max-width: 460px; margin: 0 auto; text-align: center; }
+.pad h2 { font-size: 2rem; margin: .25rem 0 1rem; }
+.pin-dots { display: flex; gap: .8rem; justify-content: center; margin-bottom: 1.25rem; }
+.pin-dots span {
+  width: 24px; height: 24px; border-radius: 50%; border: 3px solid var(--k-line);
+}
+.pin-dots span.filled { background: var(--k-text); border-color: var(--k-text); }
+
+.keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+.keys button {
+  min-height: 76px; font-size: 2rem; font-weight: 700; border-radius: 14px;
+  border: 2px solid var(--k-line); background: var(--k-surface); color: var(--k-text);
+  cursor: pointer;
+}
+.keys button:active { background: #21384f; }
+.keys button.wide { grid-column: span 1; font-size: 1.1rem; }
+
+.k-actions { display: grid; gap: 1rem; margin-top: 1.25rem; }
+.k-actions button {
+  min-height: 74px; font-size: 1.35rem; font-weight: 700; border-radius: 14px;
+  border: 0; cursor: pointer; color: #06131f;
+}
+.k-actions button.in { background: var(--k-in); color: #04231b; }
+.k-actions button.out { background: var(--k-out); color: #2a1602; }
+.k-actions button.neutral { background: var(--k-surface); color: var(--k-text); border: 2px solid var(--k-line); }
+
+.k-back {
+  min-height: 56px; font-size: 1.05rem; border-radius: 12px; cursor: pointer;
+  background: transparent; color: var(--k-muted); border: 2px solid var(--k-line);
+  padding: 0 1.4rem; margin-top: 1.25rem;
+}
+
+.confirm { text-align: center; margin: auto; padding: 2rem; }
+.confirm .mark {
+  width: 132px; height: 132px; border-radius: 50%; margin: 0 auto 1.25rem;
+  display: grid; place-items: center; font-size: 4.5rem; color: #04231b;
+}
+.confirm.in .mark { background: var(--k-in); }
+.confirm.out .mark { background: var(--k-out); }
+.confirm.err .mark { background: var(--k-err); color: #fff; }
+.confirm h2 { font-size: 2.6rem; margin: 0 0 .4rem; }
+.confirm p { font-size: 1.5rem; color: var(--k-muted); margin: .2rem 0; }
+.confirm .big-time { font-size: 3.4rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+.k-error {
+  background: var(--k-err); color: #fff; padding: 1rem 1.25rem;
+  border-radius: 12px; font-size: 1.2rem; margin: 1rem auto; max-width: 620px;
+  text-align: center;
+}
+
+.breaks { display: grid; gap: .8rem; margin-top: 1rem; }
+
+@media (max-width: 520px) {
+  .roster { grid-template-columns: 1fr; }
+  .k-clock { font-size: 1.5rem; }
+}

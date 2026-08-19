@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: timekeeper
+      POSTGRES_USER: timekeeper
+      POSTGRES_PASSWORD: change-me
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U timekeeper"]
+      interval: 5s
+      retries: 10
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://timekeeper:change-me@db:5432/timekeeper
+      TK_SECRET_KEY: change-me-to-a-long-random-value
+      TK_BASE_URL: http://localhost:8000
+      TK_ENABLE_SCHEDULER: "1"
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

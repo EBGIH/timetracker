@@ -1,0 +1,18 @@
+# Runtime
+fastapi>=0.115
+uvicorn[standard]>=0.30
+sqlalchemy>=2.0
+pydantic>=2.7
+pydantic-settings>=2.2
+email-validator>=2.1
+python-multipart>=0.0.9
+openpyxl>=3.1          # XLSX export (FR-I-10)
+reportlab>=4.1         # PDF export (FR-I-10)
+httpx>=0.27            # webhook delivery (FR-J-06)
+
+# PostgreSQL driver — required for a real deployment; SQLite needs nothing.
+psycopg[binary]>=3.1; platform_system != "Emscripten"
+
+# Development and test
+pytest>=8.0
+coverage>=7.4
